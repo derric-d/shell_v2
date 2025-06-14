@@ -38,7 +38,7 @@ char *read_line(void)
 int main(int ac, char **av, char **env)
 {
 	char *line;
-	int status = 1, count;
+        int status = 1, count = 0;
 	(void)ac;
 
 	signal(SIGINT, exec_sig);

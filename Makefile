@@ -7,7 +7,7 @@ NAME = hsh
 .PHONY: all clean oclean fclean re
 
 all: shell_2.h $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+	$(CC) $(OBJ) -o $(NAME) -no-pie
 
 clean:
 	$(RM) *~ $(NAME)

@@ -77,32 +77,21 @@ char **env_array(char *cmd, char **environ)
  */
 char *_getenv(char *name, char **environ)
 {
-	char *env_var, *name_cpy;
-	unsigned int i = 0, len;
+        unsigned int i;
+        size_t len;
 
-	len = _strlen(name);
-	name_cpy = malloc((sizeof(char) * len) + 1);
-	if (!name_cpy)
-		return (NULL);
+        if (!name || !environ)
+                return (NULL);
 
-	_strncpy(name_cpy, name, len);
-	env_var = strtok(environ[i], "=");
+        len = _strlen(name);
 
-	while (environ[i])
-	{
-		if (_strcmp(env_var, name_cpy) == 0)
-		{
-			env_var = strtok(NULL, "\n");
-			free(name_cpy);
-			name_cpy = NULL;
-			return (env_var);
-		}
-		i++;
-		env_var = strtok(environ[i], "=");
-	}
-	free(name_cpy);
-	name_cpy = NULL;
-	return (NULL);
+        for (i = 0; environ[i]; i++)
+        {
+                if (strncmp(environ[i], name, len) == 0 && environ[i][len] == '=')
+                        return (environ[i] + len + 1);
+        }
+
+        return (NULL);
 }
 /**
  * _printenv - prints out env in full
@@ -110,15 +99,18 @@ char *_getenv(char *name, char **environ)
  */
 void _printenv(char **env)
 {
-	unsigned int i, len;
+        unsigned int i = 0, len;
 
-	while (env[i])
-	{
-		len = _strlen(env[i]);
-		write(1, env[i], len);
-		write(1, "\n", 1);
-		i++;
-	}
+        if (!env)
+                return;
+
+        while (env[i])
+        {
+                len = _strlen(env[i]);
+                write(1, env[i], len);
+                write(1, "\n", 1);
+                i++;
+        }
 }
 /**
  * exec_env - executes on env builtin call
